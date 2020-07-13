@@ -211,6 +211,10 @@ export const invenioConfig = {
       ill_item_type: 'ill_item_type',
       ill_payment_mode: 'ill_payment_mode',
     },
+    documentRequests: {
+      doc_req_type: 'doc_req_type',
+      doc_req_payment_method: 'doc_req_payment_method',
+    },
   },
 };
 

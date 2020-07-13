@@ -1,18 +1,19 @@
 import { documentRequestApi } from '@api/documentRequests/documentRequest';
 import { delay } from '@api/utils';
 import { AuthenticationGuard } from '@authentication/components/AuthenticationGuard';
+import { invenioConfig } from '@config';
 import { BaseForm } from '@forms/core/BaseForm';
 import { YearInputField } from '@forms/core/DateTimeFields';
 import { GroupField } from '@forms/core/GroupField';
 import { StringField } from '@forms/core/StringField';
 import { TextField } from '@forms/core/TextField';
+import { VocabularyField } from '@forms/core/VocabularyField';
 import { goTo } from '@history';
 import { FrontSiteRoutes } from '@routes/urls';
 import { getIn } from 'formik';
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import Overridable from 'react-overridable';
-
 import { Link } from 'react-router-dom';
 import { Container, Header, Segment } from 'semantic-ui-react';
 import * as Yup from 'yup';
@@ -121,6 +122,29 @@ class DocumentRequestForm extends Component {
             fieldPath="publication_year"
             label="Publication Year"
             placeholder="Publication Year"
+          />
+        </GroupField>
+        <GroupField>
+          <VocabularyField
+            type={invenioConfig.vocabularies.docReq.doc_req_type}
+            fieldPath="request_type"
+            label="Request type"
+            placeholder="Select type..."
+            required
+            width={4}
+          />
+          <VocabularyField
+            type={invenioConfig.vocabularies.docReq.doc_req_payment_method}
+            fieldPath="payment_method"
+            label="Payment method"
+            placeholder="Select method..."
+            width={4}
+          />
+          <StringField
+            fieldPath="payment_info"
+            label="Payment information"
+            placeholder="Payment information"
+            width={8}
           />
         </GroupField>
         <TextField

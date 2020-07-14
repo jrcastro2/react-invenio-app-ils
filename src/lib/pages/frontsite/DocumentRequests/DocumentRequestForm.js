@@ -70,12 +70,23 @@ class DocumentRequestForm extends Component {
         successSubmitMessage="Your book request has been sent to the library."
         createApiMethod={this.createDocumentRequest}
       >
-        <StringField
-          fieldPath="title"
-          label="Title"
-          placeholder="Title"
-          required
-        />
+        <GroupField>
+          <StringField
+            fieldPath="title"
+            label="Title"
+            placeholder="Title"
+            required
+            width={14}
+          />
+          <VocabularyField
+            type={invenioConfig.vocabularies.documentRequests.doc_req_medium}
+            fieldPath="medium"
+            label="Medium type"
+            placeholder="Select medium..."
+            required
+            width={4}
+          />
+        </GroupField>
         <StringField
           fieldPath="journal_title"
           label="Journal title"
@@ -126,7 +137,7 @@ class DocumentRequestForm extends Component {
         </GroupField>
         <GroupField>
           <VocabularyField
-            type={invenioConfig.vocabularies.docReq.doc_req_type}
+            type={invenioConfig.vocabularies.documentRequests.doc_req_type}
             fieldPath="request_type"
             label="Request type"
             placeholder="Select type..."
@@ -134,7 +145,9 @@ class DocumentRequestForm extends Component {
             width={4}
           />
           <VocabularyField
-            type={invenioConfig.vocabularies.docReq.doc_req_payment_method}
+            type={
+              invenioConfig.vocabularies.documentRequests.doc_req_payment_method
+            }
             fieldPath="payment_method"
             label="Payment method"
             placeholder="Select method..."

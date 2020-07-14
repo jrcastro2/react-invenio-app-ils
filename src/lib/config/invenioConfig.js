@@ -214,6 +214,7 @@ export const invenioConfig = {
     documentRequests: {
       doc_req_type: 'doc_req_type',
       doc_req_payment_method: 'doc_req_payment_method',
+      doc_req_medium: 'doc_req_medium',
     },
   },
 };

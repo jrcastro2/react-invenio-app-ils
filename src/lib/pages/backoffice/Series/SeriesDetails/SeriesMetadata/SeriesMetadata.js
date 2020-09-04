@@ -22,14 +22,6 @@ export default class SeriesMetadata extends Component {
         value: seriesDetails.metadata.abbreviated_title,
       },
       {
-        name: 'Authors',
-        value: <SeriesAuthors authors={seriesDetails.metadata.authors} />,
-      },
-      {
-        name: 'Publication Year',
-        value: seriesDetails.metadata.publication_year,
-      },
-      {
         name: 'Mode of Issuance',
         value: seriesDetails.metadata.mode_of_issuance,
       },
@@ -37,7 +29,10 @@ export default class SeriesMetadata extends Component {
         name: 'Languages',
         value: <SeriesLanguages languages={seriesDetails.metadata.languages} />,
       },
-      { name: 'Publisher', value: seriesDetails.metadata.publisher },
+      {
+        name: 'Authors',
+        value: <SeriesAuthors authors={seriesDetails.metadata.authors} />,
+      },
       { name: 'Urls', value: <UrlList urls={urls} /> },
     ];
   };
@@ -45,10 +40,11 @@ export default class SeriesMetadata extends Component {
   render() {
     const { seriesDetails: series } = this.props;
     const rows = this.prepareData();
+    console.log(series);
     const columns = [
       {
         title: 'URL',
-        field: 'url',
+        field: 'value',
       },
       {
         title: 'Description',

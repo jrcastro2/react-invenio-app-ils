@@ -1,10 +1,10 @@
 import { MetadataTable } from '@components/backoffice/MetadataTable';
 import { UrlList } from '@components/backoffice/UrlList';
+import { IdentifierRows } from '@modules/Identifiers';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ShowMore from 'react-show-more';
 import { Grid, Header, Segment } from 'semantic-ui-react';
-import { IdentifierRows } from '@modules/Identifiers';
 
 export default class EItemMetadata extends Component {
   render() {

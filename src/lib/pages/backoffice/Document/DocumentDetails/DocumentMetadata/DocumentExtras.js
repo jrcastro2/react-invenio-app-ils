@@ -1,50 +1,59 @@
 import { MetadataTable } from '@components/backoffice/MetadataTable';
-import capitalize from 'lodash/capitalize';
 import _isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Header, List } from 'semantic-ui-react';
+import { Divider, Header } from 'semantic-ui-react';
+import { InfoMessage } from '@components/backoffice/InfoMessage';
 
 export class DocumentExtras extends Component {
-  renderConferenceInfo = () => {
-    const {
-      document: {
-        metadata: { conference_info },
-      },
-    } = this.props;
-    let rows = [];
-    for (const [key, val] of Object.entries(conference_info)) {
-      if (Array.isArray(val)) {
-        const arrayVals = (
-          <List>
-            {val.map((entry, idx) => (
-              <List.Item key={idx}>
-                <List.Content>
-                  <List.Header>{entry.scheme}</List.Header>
-                  <List.Description>{entry.value}</List.Description>
-                </List.Content>
-              </List.Item>
-            ))}
-          </List>
-        );
-        rows.push({ name: capitalize(key), value: arrayVals });
-      } else {
-        rows.push({ name: capitalize(key), value: val });
-      }
-    }
-    return rows;
+  prepareAlternativeTitle = element => {
+    return [{ name: 'Title', value: element.value }];
+  };
+
+  prepareAlternativeAbstracts = element => {
+    return [{ name: 'Abstract', value: element }];
   };
 
   render() {
     const { document } = this.props;
-    return (
-      !_isEmpty(document.metadata.conference_info) && (
+    if (
+      document.metadata.alternative_titles ||
+      document.metadata.alternative_abstracts
+    ) {
+      return (
         <>
-          <Header>Conference info</Header>
-          <MetadataTable rows={this.renderConferenceInfo()} />
+          {!_isEmpty(document.metadata.alternative_titles) && (
+            <>
+              <Header as="h3">Alternative titles</Header>
+              {document.metadata.alternative_titles.map(element => (
+                // eslint-disable-next-line react/jsx-key
+                <MetadataTable rows={this.prepareAlternativeTitle(element)} />
+              ))}
+            </>
+          )}
+
+          {!_isEmpty(document.metadata.alternative_abstracts) && (
+            <>
+              <Divider />
+              <Header as="h3">Publication info</Header>
+              {document.metadata.alternative_abstracts.map(element => (
+                // eslint-disable-next-line react/jsx-key
+                <MetadataTable
+                  rows={this.prepareAlternativeAbstracts(element)}
+                />
+              ))}
+            </>
+          )}
         </>
-      )
-    );
+      );
+    } else {
+      return (
+        <InfoMessage
+          header="No additional information stored."
+          content="Edit document to add additional information"
+        />
+      );
+    }
   }
 }
 

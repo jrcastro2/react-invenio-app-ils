@@ -13,12 +13,12 @@ export function formatPidTypeToName(pidType) {
   }
 }
 
-export const groupedSchemeValueList = schemeValueList => {
+export const groupedSchemeValueList = (schemeValueList, fieldType = null) => {
   const groupedIDs = groupBy(schemeValueList, 'scheme');
   let rows = [];
   for (const [scheme, idsList] of Object.entries(groupedIDs)) {
     rows.push({
-      name: scheme,
+      name: fieldType ? fieldType : scheme,
       value: (
         <List bulleted>
           {idsList.map((entry, idx) => (

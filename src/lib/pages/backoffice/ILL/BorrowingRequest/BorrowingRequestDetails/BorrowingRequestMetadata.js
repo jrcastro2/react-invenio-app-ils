@@ -127,7 +127,7 @@ export class BorrowingRequestMetadata extends React.Component {
     return (
       <>
         <Header as="h3" attached="top">
-          Request information
+          Order information
         </Header>
         <Segment attached className="bo-metadata-segment" id="request-info">
           <Metadata brwReq={brwReq} />

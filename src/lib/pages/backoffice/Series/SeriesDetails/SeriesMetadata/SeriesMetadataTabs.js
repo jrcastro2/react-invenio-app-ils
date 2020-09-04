@@ -1,4 +1,3 @@
-import { InfoMessage } from '@components/backoffice/InfoMessage';
 import { invenioConfig } from '@config';
 import { SeriesMetadataExtensions } from '@modules/Series/SeriesMetadataExtensions';
 import _isEmpty from 'lodash/isEmpty';
@@ -8,7 +7,10 @@ import Overridable from 'react-overridable';
 import ShowMore from 'react-show-more';
 import { Header, Tab } from 'semantic-ui-react';
 import { SeriesIdentifiers } from '../SeriesIdentifiers';
+import { SeriesPublication } from '../SeriesPublication';
 import { SeriesSystemInfo } from '../SeriesSystemInfo';
+import { SeriesAdditionalInfo } from '../SeriesAdditionalInfo';
+import { SeriesNotes } from '../SeriesNotes';
 import { SeriesMetadata } from './';
 
 export default class SeriesMetadataTabs extends Component {
@@ -32,6 +34,14 @@ export default class SeriesMetadataTabs extends Component {
         ),
       },
       {
+        menuItem: 'Publication',
+        render: () => (
+          <Tab.Pane>
+            <SeriesPublication seriesDetails={series} />
+          </Tab.Pane>
+        ),
+      },
+      {
         menuItem: 'Contents',
         render: () => (
           <Tab.Pane>
@@ -51,17 +61,15 @@ export default class SeriesMetadataTabs extends Component {
         menuItem: 'Notes',
         render: () => (
           <Tab.Pane>
-            <Header as="h3">Public note</Header>
-            <p>
-              {series.metadata.note ? (
-                series.metadata.note
-              ) : (
-                <InfoMessage
-                  header="No public notes."
-                  content="Edit document to add a note"
-                />
-              )}
-            </p>
+            <SeriesNotes series={series} />
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: 'Additional Info',
+        render: () => (
+          <Tab.Pane>
+            <SeriesAdditionalInfo series={series} />
           </Tab.Pane>
         ),
       },

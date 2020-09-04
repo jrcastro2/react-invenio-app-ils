@@ -2,7 +2,6 @@ import { MetadataTable } from '@components/backoffice/MetadataTable';
 import { UrlList } from '@components/backoffice/UrlList';
 import DocumentAuthors from '@modules/Document/DocumentAuthors';
 import DocumentLanguages from '@modules/Document/DocumentLanguages';
-import DocumentTags from '@modules/Document/DocumentTags';
 import { BackOfficeRoutes } from '@routes/urls';
 import get from 'lodash/get';
 import _isEmpty from 'lodash/isEmpty';
@@ -15,9 +14,16 @@ export class DocumentMetadataGeneral extends Component {
   prepareGeneral = () => {
     const { document } = this.props;
     const urls = get(this.props, 'document.metadata.urls', []);
+    console.log(document.metadata);
 
     const rows = [
       { name: 'Title', value: document.metadata.title },
+      { name: 'Publication year', value: document.metadata.publication_year },
+      {
+        name: 'Edition',
+        value: document.metadata.edition,
+      },
+      { name: 'Number of pages', value: document.metadata.number_of_pages },
       {
         name: 'Authors',
         value: (
@@ -31,23 +37,6 @@ export class DocumentMetadataGeneral extends Component {
             expandable
           />
         ),
-      },
-      { name: 'Publication year', value: document.metadata.publication_year },
-      {
-        name: 'Keywords',
-        value: document.metadata.keywords
-          ? `${document.metadata.keywords.value} (${document.metadata.keywords.source})`
-          : null,
-      },
-      {
-        name: 'Tags',
-        value: (
-          <DocumentTags isBackOffice size="mini" metadata={document.metadata} />
-        ),
-      },
-      {
-        name: 'Edition',
-        value: document.metadata.edition,
       },
       {
         name: 'Languages',

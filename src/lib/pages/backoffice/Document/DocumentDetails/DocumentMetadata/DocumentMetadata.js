@@ -4,13 +4,15 @@ import _isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Overridable from 'react-overridable';
-import { Header, Tab } from 'semantic-ui-react';
+import { Tab } from 'semantic-ui-react';
 import { DocumentContents } from './DocumentContents';
 import { DocumentCopyrights } from './DocumentCopyrights';
 import { DocumentExtras } from './DocumentExtras';
 import { DocumentIdentifiers } from './DocumentIdentifiers';
 import { DocumentMetadataGeneral } from './DocumentMetadataGeneral';
 import { DocumentSystemInfo } from './DocumentSystemInfo';
+import { DocumentPublishing } from './DocumentPublishing';
+import { DocumentCuration } from './DocumentCuration';
 
 export default class DocumentMetadata extends Component {
   panes = () => {
@@ -18,7 +20,7 @@ export default class DocumentMetadata extends Component {
 
     let panes = [
       {
-        menuItem: 'Metadata',
+        menuItem: 'Basic info',
         render: () => (
           <Tab.Pane attached="bottom">
             <DocumentMetadataGeneral document={document} />
@@ -34,7 +36,7 @@ export default class DocumentMetadata extends Component {
         ),
       },
       {
-        menuItem: 'Contents',
+        menuItem: 'Content',
         render: () => (
           <Tab.Pane>
             <DocumentContents document={document} />
@@ -42,11 +44,34 @@ export default class DocumentMetadata extends Component {
         ),
       },
       {
-        menuItem: 'Notes',
+        menuItem: 'Curation & Cataloging',
         render: () => (
           <Tab.Pane>
-            <Header as="h3">Public note</Header>
-            <p>{document.metadata.note}</p>
+            <DocumentCuration document={document} />
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: 'Licenses & Copyrights',
+        render: () => (
+          <Tab.Pane>
+            <DocumentCopyrights document={document} />
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: 'Publishing',
+        render: () => (
+          <Tab.Pane>
+            <DocumentPublishing document={document} />
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: 'Additional info',
+        render: () => (
+          <Tab.Pane>
+            <DocumentExtras document={document} />
           </Tab.Pane>
         ),
       },
@@ -59,33 +84,7 @@ export default class DocumentMetadata extends Component {
         ),
       },
     ];
-    if (
-      !_isEmpty(document.metadata.copyrights) ||
-      !_isEmpty(document.metadata.licenses)
-    ) {
-      panes.push({
-        menuItem: 'Copyrights & licenses',
-        render: () => (
-          <Tab.Pane>
-            <DocumentCopyrights document={document} />
-          </Tab.Pane>
-        ),
-      });
-    }
 
-    if (
-      !_isEmpty(document.metadata.publication_info) ||
-      !_isEmpty(document.metadata.conference_info)
-    ) {
-      panes.push({
-        menuItem: 'Other',
-        render: () => (
-          <Tab.Pane>
-            <DocumentExtras document={document} />
-          </Tab.Pane>
-        ),
-      });
-    }
     const { extensions = {} } = document.metadata;
     if (
       !_isEmpty(extensions) &&

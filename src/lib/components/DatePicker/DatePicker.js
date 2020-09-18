@@ -27,6 +27,7 @@ class DatePicker extends Component {
       id,
       name,
       placeholder,
+      disable,
     } = this.props;
     const { selectedDate } = this.state;
     return (
@@ -34,6 +35,7 @@ class DatePicker extends Component {
         autoComplete="off"
         clearable
         closable
+        disable={disable}
         iconPosition="left"
         initialDate={initialDate}
         minDate={minDate}
@@ -62,6 +64,7 @@ DatePicker.propTypes = {
   label: PropTypes.string,
   maxDate: PropTypes.string,
   minDate: PropTypes.string,
+  disable: PropTypes.array,
   name: PropTypes.string,
   placeholder: PropTypes.string,
 };
@@ -76,6 +79,7 @@ DatePicker.defaultProps = {
   id: null,
   label: null,
   error: null,
+  disable: [],
 };
 
 export default Overridable.component('DatePicker', DatePicker);

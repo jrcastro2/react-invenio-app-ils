@@ -84,6 +84,7 @@ export class BaseForm extends Component {
 
   render() {
     const { buttons, initialValues, title, onSubmit, children } = this.props;
+    console.log(initialValues);
     return (
       <>
         <Header textAlign="center">{title}</Header>

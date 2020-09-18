@@ -48,6 +48,7 @@ import {
   internalLocationListReducer,
   locationListReducer,
 } from '@pages/backoffice/Location/LocationList/reducer';
+import locationReducer from '@pages/backoffice/Location/LocationForms/LocationEditor/state/reducer';
 import {
   itemsSearchByBarcodeReducer,
   patronDetailsReducer,
@@ -107,6 +108,7 @@ const rootReducer = combineReducers({
   loanUpdateDates: loanUpdateDatesReducer,
   availableItems: availableItemsReducer,
   documentRequestDetails: documentRequestDetailsReducer,
+  location: locationReducer,
   locations: locationListReducer,
   internalLocations: internalLocationListReducer,
   deleteRecordModal: deleteRecordModalReducer,

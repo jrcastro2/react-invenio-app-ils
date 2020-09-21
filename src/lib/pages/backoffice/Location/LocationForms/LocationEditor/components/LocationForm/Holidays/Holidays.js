@@ -39,7 +39,7 @@ export default class Holidays extends Component {
   render() {
     return (
       <>
-        <Segment basic>
+        <Segment>
           <Header as="h4">Opening hours</Header>
           <Grid>
             {this.renderweekdays('monday', 0)}

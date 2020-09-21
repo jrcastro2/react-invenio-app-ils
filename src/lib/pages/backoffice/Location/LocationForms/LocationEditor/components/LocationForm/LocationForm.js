@@ -9,7 +9,7 @@ import pick from 'lodash/pick';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Holidays } from './Holidays';
-import { Header, Segment, Divider } from 'semantic-ui-react';
+import { Header, Segment } from 'semantic-ui-react';
 import { locationApi } from '@api/locations/location';
 
 export class LocationForm extends Component {
@@ -124,7 +124,6 @@ export class LocationForm extends Component {
             <StringField label="Address" fieldPath="address" />
           </GroupField>
           <TextField label="Notes" fieldPath="notes" rows={5} />
-          <Divider />
           <Holidays />
         </Segment>
       </BaseForm>

@@ -2,5 +2,5 @@ export { CountryField } from './CountryField';
 export { DeleteActionButton } from './DeleteActionButton';
 export { IdentifiersField } from './IdentifiersField';
 export { LanguageField } from './LanguageField';
-export { LocationAwareDatePicker } from './LocationAwareDatePicker';
+export { LocationDatePicker } from './LocationDatePicker';
 export { UrlsField } from './UrlsField';

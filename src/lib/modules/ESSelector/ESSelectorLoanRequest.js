@@ -77,8 +77,12 @@ export default class ESSelectorLoanRequest extends Component {
   };
 
   renderOptionalRequestExpirationDate = () => {
+    const { selections } = this.state;
+    // eslint-disable-next-line no-unused-vars
+    const locationPid = selections.length
+      ? selections[0].metadata.location_pid
+      : '';
     const today = DateTime.local();
-    const initialDate = new DateTime(today.plus({ days: 10 }));
     const max = new DateTime(
       today.plus({ days: invenioConfig.CIRCULATION.requestDuration })
     );
@@ -87,7 +91,6 @@ export default class ESSelectorLoanRequest extends Component {
         <Segment.Inline>
           <div>Optionally, select a limit date for your request</div>
           <DatePicker
-            initialDate={toShortDate(initialDate)}
             minDate={toShortDate(today)}
             maxDate={toShortDate(max)}
             placeholder="Request limit date"

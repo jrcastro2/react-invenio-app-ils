@@ -7,7 +7,7 @@ import { DateTime } from 'luxon';
 import { toShortDate } from '@api/date';
 import _isEmpty from 'lodash/isEmpty';
 import { LoanInformationBullets } from '../DocumentCirculation/LoanInformationBullets';
-import { LocationAwareDatePicker } from '@forms/components';
+import { LocationDatePicker } from '@forms/components';
 import { sessionManager } from '@authentication/services/SessionManager';
 
 class LoanRequestForm extends Component {
@@ -100,7 +100,7 @@ class LoanRequestForm extends Component {
     return (
       <Form.Field>
         <label>Do you require it before a certain date? (optional)</label>
-        <LocationAwareDatePicker
+        <LocationDatePicker
           locationPid={sessionManager.user.locationPid}
           initialDate={toShortDate(initialDate)}
           minDate={toShortDate(today)}

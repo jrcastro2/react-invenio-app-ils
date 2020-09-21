@@ -5,7 +5,7 @@ import { locationApi } from '@api/locations';
 import { Dimmer } from 'semantic-ui-react';
 import { fromISO, toISODate } from '@api/date';
 
-export class LocationAwareDatePicker extends Component {
+export class LocationDatePicker extends Component {
   constructor(props) {
     super(props);
 
@@ -76,18 +76,20 @@ export class LocationAwareDatePicker extends Component {
       <Dimmer.Dimmable>
         <Dimmer active={isLoading} inverted />
         <DatePicker
+          {...otherProps}
           minDate={minDate}
           maxDate={maxDate}
           disable={this.listDisabled()}
           handleDateChange={handleDateChange}
-          {...otherProps}
+          initialDate=""
+          defaultValue=""
         />
       </Dimmer.Dimmable>
     );
   }
 }
 
-LocationAwareDatePicker.propTypes = {
+LocationDatePicker.propTypes = {
   locationPid: PropTypes.string.isRequired,
   handleDateChange: PropTypes.func.isRequired,
   minDate: PropTypes.string.isRequired,

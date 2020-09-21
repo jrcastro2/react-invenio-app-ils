@@ -105,7 +105,7 @@ class LocationOpeningHours extends Component {
               </Table.Header>
               <Table.Body>{this.renderExceptionRows(today)}</Table.Body>
             </Table>
-            {!metadata.opening_exceptions && (
+            {!metadata.opening_exceptions.length && (
               <InfoMessage message="There are no exceptions planned in the near future." />
             )}
           </Grid.Column>

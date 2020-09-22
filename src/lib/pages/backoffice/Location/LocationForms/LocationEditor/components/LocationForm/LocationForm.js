@@ -71,6 +71,11 @@ export class LocationForm extends Component {
   };
 
   processData = data => {
+    data['opening_weekdays'].forEach(element => {
+      if (!element['is_open']) {
+        delete element['times'];
+      }
+    });
     if (data['opening_exceptions'] === undefined) {
       data['opening_exceptions'] = [];
     } else {
@@ -97,7 +102,8 @@ export class LocationForm extends Component {
     return response;
   };
 
-  successCallback = () => goTo(BackOfficeRoutes.locationsList);
+  successCallback = result =>
+    goTo(BackOfficeRoutes.locationsDetailsFor(result.data.pid));
 
   render() {
     const {

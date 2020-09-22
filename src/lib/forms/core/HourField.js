@@ -5,13 +5,6 @@ import { Form } from 'semantic-ui-react';
 import { TimeInput } from 'semantic-ui-calendar-react';
 
 export class HourField extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      time: '',
-    };
-  }
-
   renderError(errors, name, direction = 'above') {
     const error = errors[name];
     return error
@@ -26,9 +19,6 @@ export class HourField extends Component {
     const {
       form: { setFieldValue },
     } = props;
-    this.setState({
-      time: name['value'],
-    });
     setFieldValue(name['name'], name['value']);
   };
 
@@ -45,19 +35,17 @@ export class HourField extends Component {
     const {
       form: { values },
     } = props;
-    // eslint-disable-next-line no-unused-vars
-    const { time } = this.state;
-    const value = getIn(values, fieldPath, '');
     let isDisabled = false;
     if (values && parentFieldPath && (index || index === 0) && dependantValue) {
       isDisabled = !values[parentFieldPath][index][dependantValue];
     }
+    const value = getIn(values, fieldPath, '');
     return (
       <Form.Field inline={inline} width={width}>
         <TimeInput
           name={fieldPath}
           placeholder={placeholder}
-          value={value}
+          value={isDisabled ? '' : value}
           disabled={isDisabled}
           iconPosition="left"
           closable

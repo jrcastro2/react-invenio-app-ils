@@ -5,70 +5,65 @@ import { HourField } from '@forms/core/HourField';
 import { ExceptionsField } from '@forms/components';
 
 export default class Holidays extends Component {
-  renderweekdays(weekday, arrayPath) {
+  renderHourField(fieldPath, index, placeholder) {
+    return (
+      <Grid.Column width={3}>
+        <HourField
+          placeholder={placeholder}
+          fieldPath={fieldPath}
+          parentFieldPath="opening_weekdays"
+          index={index}
+          dependantValue="is_open"
+          required
+        />
+      </Grid.Column>
+    );
+  }
+
+  renderHoursPeriod(arrayPath, fieldPath, idx) {
+    return (
+      <>
+        {this.renderHourField(
+          `${fieldPath}.${idx}.start_time`,
+          arrayPath,
+          'From'
+        )}
+        {this.renderHourField(`${fieldPath}.${idx}.end_time`, arrayPath, 'To')}
+      </>
+    );
+  }
+
+  renderWeekday(weekday, arrayPath) {
     const fieldPathIsOpen = `opening_weekdays.${arrayPath}.is_open`;
     const fieldPath = `opening_weekdays.${arrayPath}.times`;
     return (
-      <Grid.Row>
-        <Grid.Column width={4}>
+      <Grid.Row key={arrayPath}>
+        <Grid.Column width={3}>
           <BooleanField label={weekday} fieldPath={fieldPathIsOpen} toggle />
         </Grid.Column>
-        <Grid.Column width={2}>
-          <HourField
-            placeholder="From"
-            fieldPath={`${fieldPath}.0.start_time`}
-            parentFieldPath="opening_weekdays"
-            index={arrayPath}
-            dependantValue="is_open"
-            required
-          />
-        </Grid.Column>
-        <Grid.Column width={2}>
-          <HourField
-            placeholder="To"
-            fieldPath={`${fieldPath}.0.end_time`}
-            parentFieldPath="opening_weekdays"
-            index={arrayPath}
-            dependantValue="is_open"
-            required
-          />
-        </Grid.Column>
-        <Grid.Column width={2}>
-          <HourField
-            placeholder="From"
-            fieldPath={`${fieldPath}.1.start_time`}
-            parentFieldPath="opening_weekdays"
-            index={arrayPath}
-            dependantValue="is_open"
-            required
-          />
-        </Grid.Column>
-        <Grid.Column width={2}>
-          <HourField
-            placeholder="To"
-            fieldPath={`${fieldPath}.1.end_time`}
-            parentFieldPath="opening_weekdays"
-            index={arrayPath}
-            dependantValue="is_open"
-            required
-          />
-        </Grid.Column>
+        {this.renderHoursPeriod(arrayPath, fieldPath, 0)}
+        <Grid.Column width={1} />
+        {this.renderHoursPeriod(arrayPath, fieldPath, 1)}
       </Grid.Row>
     );
   }
+
   render() {
+    const weekdays = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ];
     return (
       <>
         <Segment>
           <Header as="h4">Opening hours</Header>
           <Grid>
-            {this.renderweekdays('Monday', 0)}
-            {this.renderweekdays('Tuesday', 1)}
-            {this.renderweekdays('Wednesday', 2)}
-            {this.renderweekdays('Thursday', 3)}
-            {this.renderweekdays('Friday', 4)}
-            {this.renderweekdays('Saturday', 5)}
-            {this.renderweekdays('Sunday', 6)}
+            {weekdays.map((weekday, i) => this.renderWeekday(weekday, i))}
           </Grid>
         </Segment>
         <Segment>

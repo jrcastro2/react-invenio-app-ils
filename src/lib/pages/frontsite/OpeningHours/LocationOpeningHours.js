@@ -5,8 +5,9 @@ import { Table, Header, Grid, Icon } from 'semantic-ui-react';
 import { DateTime } from 'luxon';
 import { fromISO, toISODate } from '@api/date';
 import { InfoMessage } from '@components/InfoMessage';
+import _isEmpty from 'lodash/isEmpty';
 
-class LocationOpeningHours extends Component {
+export class LocationOpeningHours extends Component {
   capitalizeFirst = string => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
@@ -32,6 +33,18 @@ class LocationOpeningHours extends Component {
     );
   };
 
+  renderHours = weekday => {
+    var hoursDisplay = '';
+    !_isEmpty(weekday['times']) &&
+      weekday['times'].forEach(element => {
+        if (hoursDisplay) {
+          hoursDisplay += '; ';
+        }
+        hoursDisplay += element.start_time + ' - ' + element.end_time;
+      });
+    return <span>{hoursDisplay}</span>;
+  };
+
   renderWeekdayRows = today => {
     const {
       location: { metadata },
@@ -45,6 +58,9 @@ class LocationOpeningHours extends Component {
         <Table.Row key={weekday.weekday} active={isNotOverriden && isCurrent}>
           <Table.Cell textAlign="center">
             {this.capitalizeFirst(weekday.weekday)}
+          </Table.Cell>
+          <Table.Cell textAlign="center">
+            {this.renderHours(weekday)}
           </Table.Cell>
           <Table.Cell textAlign="center">
             {this.renderOpenClosed(weekday.is_open)}
@@ -75,18 +91,18 @@ class LocationOpeningHours extends Component {
   };
 
   render() {
-    const { location } = this.props;
+    const { location, noHeader } = this.props;
     const metadata = location.metadata;
     const today = toISODate(DateTime.local());
     return (
       <>
-        <Header as="h3">{metadata.name}</Header>
+        <Header as="h3">{!noHeader ? metadata.name : null}</Header>
         <Grid centered columns={2}>
-          <Grid.Column computer={6} mobile={16}>
+          <Grid.Column computer={7} mobile={16}>
             <Table striped>
               <Table.Header>
                 <Table.Row textAlign="center">
-                  <Table.HeaderCell colSpan="2">
+                  <Table.HeaderCell colSpan="4">
                     Regular schedule
                   </Table.HeaderCell>
                 </Table.Row>
@@ -94,7 +110,7 @@ class LocationOpeningHours extends Component {
               <Table.Body>{this.renderWeekdayRows(today)}</Table.Body>
             </Table>
           </Grid.Column>
-          <Grid.Column computer={10} mobile={16}>
+          <Grid.Column computer={9} mobile={16}>
             <Table striped>
               <Table.Header>
                 <Table.Row textAlign="center">
@@ -117,6 +133,11 @@ class LocationOpeningHours extends Component {
 
 LocationOpeningHours.propTypes = {
   location: PropTypes.object.isRequired,
+  noHeader: PropTypes.bool,
+};
+
+LocationOpeningHours.defaultProps = {
+  noHeader: false,
 };
 
 export default Overridable.component(

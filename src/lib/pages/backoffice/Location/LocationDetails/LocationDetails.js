@@ -20,6 +20,7 @@ import {
 import { LocationInformation } from './LocationInformation';
 import { goTo } from '@history';
 import { internalLocationApi } from '@api/locations';
+import { LocationOpeningHours } from '@pages/frontsite/OpeningHours';
 
 const DeleteLocationButton = props => {
   return (
@@ -178,6 +179,7 @@ export default class LocationDetails extends React.Component {
                     <Grid.Column width={13}>
                       <Container className="spaced">
                         <LocationDetailsInner data={data} />
+                        <LocationOpeningHours noHeader location={data} />
                       </Container>
                     </Grid.Column>
                     <Grid.Column width={3}>

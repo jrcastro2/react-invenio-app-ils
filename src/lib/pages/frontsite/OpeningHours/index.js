@@ -16,3 +16,5 @@ export const OpeningHours = connect(
   mapStateToProps,
   mapDispatchToProps
 )(OpeningHoursComponent);
+
+export { LocationOpeningHours } from './LocationOpeningHours';

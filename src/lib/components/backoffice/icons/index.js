@@ -10,4 +10,5 @@ export {
   AcquisitionVendorIcon,
   ILLBorrowingRequestIcon,
   ILLLibraryIcon,
+  InternalLocationIcon,
 } from './Icons';

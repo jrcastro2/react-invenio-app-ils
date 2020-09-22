@@ -2,7 +2,7 @@ import { EditButton } from '@components/backoffice/buttons/EditButton';
 import { DeleteRecordModal } from '@components/backoffice/DeleteRecordModal';
 import { DeleteButton } from '@components/backoffice/DeleteRecordModal/DeleteButton';
 import { DetailsHeader } from '@components/backoffice/DetailsHeader';
-import { InternalLocationIcon } from '@components/backoffice/icons';
+import { LocationIcon } from '@components/backoffice/icons';
 import { CopyButton } from '@components/CopyButton';
 import { Error } from '@components/Error';
 import { Loader } from '@components/Loader';
@@ -85,7 +85,7 @@ class LocationHeader extends React.Component {
       <DetailsHeader
         title={data.metadata.name}
         pid={data.metadata.pid}
-        icon={<InternalLocationIcon />}
+        icon={<LocationIcon />}
         recordType="Location"
       >
         <label>Location</label> #{data.metadata.pid}

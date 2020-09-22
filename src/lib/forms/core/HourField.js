@@ -1,4 +1,4 @@
-import { FastField, Field } from 'formik';
+import { FastField, Field, getIn } from 'formik';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
@@ -38,30 +38,26 @@ export class HourField extends Component {
       width,
       fieldPath,
       placeholder,
-      parrentFieldPath,
+      parentFieldPath,
       index,
       dependantValue,
     } = this.props;
-    const { time } = this.state;
     const {
       form: { values },
     } = props;
+    // eslint-disable-next-line no-unused-vars
+    const { time } = this.state;
+    const value = getIn(values, fieldPath, '');
     let isDisabled = false;
-    if (
-      values &&
-      parrentFieldPath &&
-      (index || index === 0) &&
-      dependantValue
-    ) {
-      isDisabled = !values[parrentFieldPath][index][dependantValue];
+    if (values && parentFieldPath && (index || index === 0) && dependantValue) {
+      isDisabled = !values[parentFieldPath][index][dependantValue];
     }
-
     return (
       <Form.Field inline={inline} width={width}>
         <TimeInput
           name={fieldPath}
           placeholder={placeholder}
-          value={time}
+          value={value}
           disabled={isDisabled}
           iconPosition="left"
           closable
@@ -82,7 +78,7 @@ export class HourField extends Component {
 
 HourField.propTypes = {
   fieldPath: PropTypes.string.isRequired,
-  parrentFieldPath: PropTypes.string,
+  parentFieldPath: PropTypes.string,
   index: PropTypes.number,
   dependantValue: PropTypes.string,
   placeholder: PropTypes.string,
@@ -92,7 +88,7 @@ HourField.propTypes = {
 };
 
 HourField.defaultProps = {
-  parrentFieldPath: '',
+  parentFieldPath: '',
   index: null,
   dependantValue: '',
   inline: false,

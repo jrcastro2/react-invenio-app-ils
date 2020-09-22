@@ -34,15 +34,10 @@ export class LocationOpeningHours extends Component {
   };
 
   renderHours = weekday => {
-    var hoursDisplay = '';
-    !_isEmpty(weekday['times']) &&
-      weekday['times'].forEach(element => {
-        if (hoursDisplay) {
-          hoursDisplay += '; ';
-        }
-        hoursDisplay += element.start_time + ' - ' + element.end_time;
-      });
-    return <span>{hoursDisplay}</span>;
+    const hoursDisplay =
+      !_isEmpty(weekday['times']) &&
+      weekday['times'].map(e => e.start_time + ' - ' + e.end_time).join('; ');
+    return hoursDisplay && <span>{hoursDisplay}</span>;
   };
 
   renderWeekdayRows = today => {

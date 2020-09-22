@@ -26,27 +26,36 @@ export class LocationForm extends Component {
   };
 
   prepareDataForCreation = () => {
+    const defaultTimes = [
+      { start_time: '08:00', end_time: '12:00' },
+      { start_time: '13:00', end_time: '18:00' },
+    ];
     return {
       opening_weekdays: [
         {
           weekday: 'monday',
           is_open: true,
+          times: defaultTimes,
         },
         {
           weekday: 'tuesday',
           is_open: true,
+          times: defaultTimes,
         },
         {
           weekday: 'wednesday',
           is_open: true,
+          times: defaultTimes,
         },
         {
           weekday: 'thursday',
           is_open: true,
+          times: defaultTimes,
         },
         {
           weekday: 'friday',
           is_open: true,
+          times: defaultTimes,
         },
         {
           weekday: 'saturday',

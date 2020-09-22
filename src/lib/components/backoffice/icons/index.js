@@ -11,4 +11,5 @@ export {
   ILLBorrowingRequestIcon,
   ILLLibraryIcon,
   InternalLocationIcon,
+  LocationIcon,
 } from './Icons';

@@ -21,6 +21,12 @@ export class LocationDatePicker extends Component {
     this.fetchLocation(locationPid);
   }
 
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { locationPid } = nextProps;
+    this.fetchLocation(locationPid);
+  }
+
   fetchLocation = async locationPid => {
     try {
       const response = await locationApi.get(locationPid);
@@ -70,7 +76,13 @@ export class LocationDatePicker extends Component {
   };
 
   render() {
-    const { minDate, maxDate, handleDateChange, ...otherProps } = this.props;
+    const {
+      minDate,
+      maxDate,
+      handleDateChange,
+      defaultValue,
+      ...otherProps
+    } = this.props;
     const { isLoading } = this.state;
     return (
       <Dimmer.Dimmable>
@@ -82,7 +94,7 @@ export class LocationDatePicker extends Component {
           disable={this.listDisabled()}
           handleDateChange={handleDateChange}
           initialDate=""
-          defaultValue=""
+          defaultValue={defaultValue}
         />
       </Dimmer.Dimmable>
     );
@@ -94,4 +106,9 @@ LocationDatePicker.propTypes = {
   handleDateChange: PropTypes.func.isRequired,
   minDate: PropTypes.string.isRequired,
   maxDate: PropTypes.string.isRequired,
+  defaultValue: PropTypes.string,
+};
+
+LocationDatePicker.defaultProps = {
+  defaultValue: '',
 };

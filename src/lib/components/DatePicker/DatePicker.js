@@ -28,6 +28,7 @@ class DatePicker extends Component {
       name,
       placeholder,
       disable,
+      disabledInput,
     } = this.props;
     const { selectedDate } = this.state;
     return (
@@ -35,6 +36,7 @@ class DatePicker extends Component {
         autoComplete="off"
         clearable
         closable
+        disabled={disabledInput}
         disable={disable}
         iconPosition="left"
         initialDate={initialDate}
@@ -67,6 +69,7 @@ DatePicker.propTypes = {
   disable: PropTypes.array,
   name: PropTypes.string,
   placeholder: PropTypes.string,
+  disabledInput: PropTypes.bool,
 };
 
 DatePicker.defaultProps = {
@@ -80,6 +83,7 @@ DatePicker.defaultProps = {
   label: null,
   error: null,
   disable: [],
+  disabledInput: false,
 };
 
 export default Overridable.component('DatePicker', DatePicker);

@@ -7,7 +7,7 @@ import { ExceptionsField } from '@forms/components';
 export default class Holidays extends Component {
   renderHourField(fieldPath, index, placeholder) {
     return (
-      <Grid.Column width={3}>
+      <Grid.Column>
         <HourField
           placeholder={placeholder}
           fieldPath={fieldPath}
@@ -62,7 +62,7 @@ export default class Holidays extends Component {
       <>
         <Segment>
           <Header as="h4">Opening hours</Header>
-          <Grid>
+          <Grid columns={6}>
             {weekdays.map((weekday, i) => this.renderWeekday(weekday, i))}
           </Grid>
         </Segment>

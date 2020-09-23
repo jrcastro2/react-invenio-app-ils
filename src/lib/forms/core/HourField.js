@@ -33,8 +33,12 @@ export class HourField extends Component {
       dependantValue,
     } = this.props;
     const {
-      form: { values },
+      form: { values, errors },
     } = props;
+    let error;
+    if (fieldPath in errors) {
+      error = errors[fieldPath];
+    }
     let isDisabled = false;
     if (values && parentFieldPath && (index || index === 0) && dependantValue) {
       isDisabled = !values[parentFieldPath][index][dependantValue];
@@ -43,6 +47,7 @@ export class HourField extends Component {
     return (
       <Form.Field inline={inline} width={width}>
         <TimeInput
+          error={error}
           name={fieldPath}
           placeholder={placeholder}
           value={isDisabled ? '' : value}

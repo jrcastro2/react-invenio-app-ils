@@ -26,30 +26,24 @@ class OpeningHours extends Component {
   };
 
   render() {
-    const { error, isLoading, footer } = this.props;
+    const { error, isLoading } = this.props;
     return (
       <Container className="spaced">
         <Header as="h2">Opening hours</Header>
         <Loader isLoading={isLoading}>
           <Error error={error}>{this.renderItems()}</Error>
         </Loader>
-        {footer}
       </Container>
     );
   }
 }
 
 OpeningHours.propTypes = {
-  footer: PropTypes.node,
   /* Redux */
   data: PropTypes.object.isRequired,
   error: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
   fetchAllLocations: PropTypes.func.isRequired,
-};
-
-OpeningHours.defaultProps = {
-  footer: null,
 };
 
 export default Overridable.component('OpeningHours', OpeningHours);

@@ -179,7 +179,7 @@ export default class LocationDetails extends React.Component {
                     <Grid.Column width={13}>
                       <Container className="spaced">
                         <LocationDetailsInner data={data} />
-                        <LocationOpeningHours noHeader location={data} />
+                        <LocationOpeningHours location={data} />
                       </Container>
                     </Grid.Column>
                     <Grid.Column width={3}>

@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import Overridable from 'react-overridable';
-import { Container, Header } from 'semantic-ui-react';
+import { Container, Grid, Header, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Error } from '@components/Error';
 import { Loader } from '@components/Loader';
 import LocationOpeningHours from './LocationOpeningHours';
+import { sessionManager } from '@authentication/services/SessionManager';
+import _get from 'lodash/get';
+import { AuthenticationGuard } from '@authentication/components/AuthenticationGuard';
+import { Link } from 'react-router-dom';
+import { BackOfficeRoutes } from '@routes/backoffice/backofficeUrls';
 
 class OpeningHours extends Component {
   constructor(props) {
@@ -20,9 +25,36 @@ class OpeningHours extends Component {
     const {
       data: { hits },
     } = this.props;
-    return hits.map(location => (
-      <LocationOpeningHours key={location.pid} location={location} />
-    ));
+    const locationPid = _get(sessionManager, 'user.locationPid');
+    return hits
+      .slice()
+      .sort((a, b) =>
+        a.pid === locationPid
+          ? -1
+          : b.pid === locationPid
+          ? 1
+          : ('' + a.pid).localeCompare(b.pid)
+      )
+      .map(location => (
+        <Grid.Row key={location.pid}>
+          <Grid.Column stretched>
+            <Header as="h3">
+              {location.metadata.name}{' '}
+              <AuthenticationGuard
+                silent
+                authorizedComponent={() => (
+                  <Link to={BackOfficeRoutes.locationsEditFor(location.pid)}>
+                    <Icon name="edit" fitted />
+                  </Link>
+                )}
+                roles={['admin', 'librarian']}
+                loginComponent={() => null}
+              />
+            </Header>
+            <LocationOpeningHours location={location} />
+          </Grid.Column>
+        </Grid.Row>
+      ));
   };
 
   render() {
@@ -31,7 +63,9 @@ class OpeningHours extends Component {
       <Container className="spaced">
         <Header as="h2">Opening hours</Header>
         <Loader isLoading={isLoading}>
-          <Error error={error}>{this.renderItems()}</Error>
+          <Error error={error}>
+            <Grid>{this.renderItems()}</Grid>
+          </Error>
         </Loader>
       </Container>
     );

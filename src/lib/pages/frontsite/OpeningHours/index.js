@@ -5,7 +5,8 @@ import { fetchAllLocations } from '@pages/backoffice/Location/LocationList/state
 const mapStateToProps = state => ({
   data: state.locations.data,
   error: state.locations.error,
-  isLoading: state.locations.isLoading,
+  isLoading:
+    state.locations.isLoading || state.authenticationManagement.isLoading,
 });
 
 const mapDispatchToProps = dispatch => ({

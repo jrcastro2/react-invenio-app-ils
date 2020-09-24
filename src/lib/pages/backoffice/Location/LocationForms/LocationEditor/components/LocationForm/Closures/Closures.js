@@ -5,7 +5,7 @@ import { HourField } from '@forms/core/HourField';
 import { ExceptionsField } from '@forms/components';
 import { Field } from 'formik';
 
-export default class Holidays extends Component {
+export default class Closures extends Component {
   renderError = fieldPath => {
     return (
       <Field
@@ -51,7 +51,11 @@ export default class Holidays extends Component {
       <Grid.Row key={arrayPath}>
         <Grid.Column width={16}>{this.renderError(fieldPath)}</Grid.Column>
         <Grid.Column width={3}>
-          <BooleanField label={weekday} fieldPath={fieldPathIsOpen} toggle />
+          <BooleanField
+            rightLabel={weekday}
+            fieldPath={fieldPathIsOpen}
+            toggle
+          />
         </Grid.Column>
         {this.renderHoursPeriod(arrayPath, fieldPath, 0)}
         <Grid.Column width={1} />

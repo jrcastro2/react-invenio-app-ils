@@ -8,7 +8,7 @@ import { BackOfficeRoutes } from '@routes/urls';
 import pick from 'lodash/pick';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Holidays } from './Holidays';
+import { Closures } from './Closures';
 import { Header, Segment } from 'semantic-ui-react';
 import { locationApi } from '@api/locations/location';
 
@@ -139,7 +139,7 @@ export class LocationForm extends Component {
             <StringField label="Address" fieldPath="address" />
           </GroupField>
           <TextField label="Notes" fieldPath="notes" rows={5} />
-          <Holidays />
+          <Closures />
         </Segment>
       </BaseForm>
     );

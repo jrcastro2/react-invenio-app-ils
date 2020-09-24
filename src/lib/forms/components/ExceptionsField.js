@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { DeleteActionButton } from './DeleteActionButton';
 import { BooleanField } from '@forms/core/BooleanField';
 import { DateInputField } from '@forms/core/DateTimeFields/DateInputField';
-import { Grid } from 'semantic-ui-react';
+import { Divider, Grid } from 'semantic-ui-react';
 
 export class ExceptionsField extends Component {
   renderFormField({ arrayPath, indexPath, ...arrayHelpers }) {
@@ -22,8 +22,10 @@ export class ExceptionsField extends Component {
       >
         <Grid columns={4}>
           <Grid.Column width={2}>
+            <Divider hidden />
             <BooleanField
-              label="Open"
+              leftLabel="Closure"
+              rightLabel="Opening"
               fieldPath={`${objectPath}.is_open`}
               toggle
             />
@@ -55,7 +57,7 @@ export class ExceptionsField extends Component {
   render() {
     return (
       <AccordionField
-        label="Holidays"
+        label="Exceptions"
         fieldPath="opening_exceptions"
         content={
           <ArrayField
@@ -67,7 +69,7 @@ export class ExceptionsField extends Component {
               end_date: undefined,
             }}
             renderArrayItem={this.renderFormField}
-            addButtonLabel="Add new holidays"
+            addButtonLabel="Add new exception"
           />
         }
       />

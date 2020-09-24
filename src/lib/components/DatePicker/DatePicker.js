@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Overridable from 'react-overridable';
 import { DateInput } from 'semantic-ui-calendar-react';
 import PropTypes from 'prop-types';
+import { DateTime } from 'luxon';
+import { toShortDate } from '@api/date';
 
 class DatePicker extends Component {
   constructor(props) {
@@ -31,6 +33,18 @@ class DatePicker extends Component {
       disabledInput,
     } = this.props;
     const { selectedDate } = this.state;
+    // Remove this code when this issue is solved -> https://github.com/arfedulov/semantic-ui-calendar-react/issues/202
+    // and update `initialDate={initialDateChecked}` to `initialDate={initialDate}`
+    //----------------------------------------------------------------------------
+    let firstAvailableDay = DateTime.local();
+    let initialDateChecked = initialDate;
+    while (disable.includes(toShortDate(firstAvailableDay))) {
+      firstAvailableDay = new DateTime(firstAvailableDay.plus({ days: 1 }));
+    }
+    if (initialDate < toShortDate(firstAvailableDay)) {
+      initialDateChecked = toShortDate(firstAvailableDay);
+    }
+    //----------------------------------------------------------------------------
     return (
       <DateInput
         autoComplete="off"
@@ -39,7 +53,7 @@ class DatePicker extends Component {
         disabled={disabledInput}
         disable={disable}
         iconPosition="left"
-        initialDate={initialDate}
+        initialDate={initialDateChecked}
         minDate={minDate}
         maxDate={maxDate}
         error={error}

@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
-import { Segment, Grid, Header } from 'semantic-ui-react';
+import { Segment, Grid, Header, Message } from 'semantic-ui-react';
 import { BooleanField } from '@forms/core/BooleanField';
 import { HourField } from '@forms/core/HourField';
 import { ExceptionsField } from '@forms/components';
+import { Field } from 'formik';
 
 export default class Holidays extends Component {
-  renderHourField(fieldPath, index, placeholder) {
+  renderError = fieldPath => {
+    return (
+      <Field
+        name="error-message"
+        component={({ form: { errors } }) =>
+          fieldPath in errors && (
+            <Message negative content={errors[fieldPath]} />
+          )
+        }
+      />
+    );
+  };
+
+  renderHourField = (fieldPath, index, placeholder) => {
     return (
       <Grid.Column>
         <HourField
@@ -18,26 +32,24 @@ export default class Holidays extends Component {
         />
       </Grid.Column>
     );
-  }
+  };
 
-  renderHoursPeriod(arrayPath, fieldPath, idx) {
+  renderHoursPeriod = (arrayPath, fieldPath, idx) => {
+    const arrayPrefix = `${fieldPath}.${idx}`;
     return (
       <>
-        {this.renderHourField(
-          `${fieldPath}.${idx}.start_time`,
-          arrayPath,
-          'From'
-        )}
-        {this.renderHourField(`${fieldPath}.${idx}.end_time`, arrayPath, 'To')}
+        {this.renderHourField(`${arrayPrefix}.start_time`, arrayPath, 'From')}
+        {this.renderHourField(`${arrayPrefix}.end_time`, arrayPath, 'To')}
       </>
     );
-  }
+  };
 
-  renderWeekday(weekday, arrayPath) {
-    const fieldPathIsOpen = `opening_weekdays.${arrayPath}.is_open`;
-    const fieldPath = `opening_weekdays.${arrayPath}.times`;
+  renderWeekday = (pathPrefix, weekday, arrayPath) => {
+    const fieldPathIsOpen = `${pathPrefix}.${arrayPath}.is_open`;
+    const fieldPath = `${pathPrefix}.${arrayPath}.times`;
     return (
       <Grid.Row key={arrayPath}>
+        <Grid.Column width={16}>{this.renderError(fieldPath)}</Grid.Column>
         <Grid.Column width={3}>
           <BooleanField label={weekday} fieldPath={fieldPathIsOpen} toggle />
         </Grid.Column>
@@ -46,7 +58,7 @@ export default class Holidays extends Component {
         {this.renderHoursPeriod(arrayPath, fieldPath, 1)}
       </Grid.Row>
     );
-  }
+  };
 
   render() {
     const weekdays = [
@@ -58,12 +70,16 @@ export default class Holidays extends Component {
       'Saturday',
       'Sunday',
     ];
+    const weekdaysFieldPath = 'opening_weekdays';
     return (
       <>
         <Segment>
           <Header as="h4">Opening hours</Header>
+          {this.renderError(weekdaysFieldPath)}
           <Grid columns={6}>
-            {weekdays.map((weekday, i) => this.renderWeekday(weekday, i))}
+            {weekdays.map((weekday, i) =>
+              this.renderWeekday(weekdaysFieldPath, weekday, i)
+            )}
           </Grid>
         </Segment>
         <Segment>

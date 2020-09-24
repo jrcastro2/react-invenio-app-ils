@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import { DeleteActionButton } from './DeleteActionButton';
 import { BooleanField } from '@forms/core/BooleanField';
 import { DateInputField } from '@forms/core/DateTimeFields/DateInputField';
+import { Grid } from 'semantic-ui-react';
 
 export class ExceptionsField extends Component {
   renderFormField({ arrayPath, indexPath, ...arrayHelpers }) {
@@ -19,29 +20,34 @@ export class ExceptionsField extends Component {
           <DeleteActionButton onClick={() => arrayHelpers.remove(indexPath)} />
         }
       >
-        <GroupField>
-          <StringField label="Title" fieldPath={`${objectPath}.title`} />
-          <BooleanField
-            label="Open"
-            fieldPath={`${objectPath}.is_open`}
-            toggle
-          />
-        </GroupField>
-
-        <GroupField widths="equal">
-          <DateInputField
-            label="Start date"
-            fieldPath={`${objectPath}.start_date`}
-            optimized
-            required
-          />
-          <DateInputField
-            label="End date"
-            fieldPath={`${objectPath}.end_date`}
-            optimized
-            required
-          />
-        </GroupField>
+        <Grid columns={4}>
+          <Grid.Column width={2}>
+            <BooleanField
+              label="Open"
+              fieldPath={`${objectPath}.is_open`}
+              toggle
+            />
+          </Grid.Column>
+          <Grid.Column width={6}>
+            <StringField label="Title" fieldPath={`${objectPath}.title`} />
+          </Grid.Column>
+          <Grid.Column width={4}>
+            <DateInputField
+              label="Start date"
+              fieldPath={`${objectPath}.start_date`}
+              optimized
+              required
+            />
+          </Grid.Column>
+          <Grid.Column width={4}>
+            <DateInputField
+              label="End date"
+              fieldPath={`${objectPath}.end_date`}
+              optimized
+              required
+            />
+          </Grid.Column>
+        </Grid>
       </GroupField>
     );
   }

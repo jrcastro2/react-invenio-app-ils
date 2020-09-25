@@ -24,8 +24,7 @@ class DatePicker extends Component {
   fetchDataOnClick = () => {
     const { fetchData, locationPid } = this.props;
     const { dataFetched, previousLocationPid } = this.state;
-
-    if (!dataFetched || locationPid !== previousLocationPid) {
+    if (fetchData && (!dataFetched || locationPid !== previousLocationPid)) {
       fetchData();
       this.setState({ dataFetched: true, previousLocationPid: locationPid });
     }

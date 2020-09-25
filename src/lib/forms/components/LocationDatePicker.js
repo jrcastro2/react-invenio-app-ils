@@ -30,7 +30,16 @@ export class LocationDatePicker extends Component {
     const { minDate, maxDate } = this.props;
     const { isLoading, error, data } = this.state;
     const disabled = [];
-    if (!isLoading && !error.response && !_isEmpty(data)) {
+    if (isLoading) {
+      let date = fromISO(minDate);
+      const dateMax = fromISO(maxDate);
+      let i = 0;
+      while (date <= dateMax && i <= 365) {
+        const dateISO = toISODate(date);
+        disabled.push(dateISO);
+        date = date.plus({ days: 1 });
+      }
+    } else if (!error.response && !_isEmpty(data)) {
       const weekdays = data.metadata.opening_weekdays,
         exceptions = data.metadata.opening_exceptions;
       let date = fromISO(minDate);

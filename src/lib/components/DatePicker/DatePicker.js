@@ -10,6 +10,8 @@ class DatePicker extends Component {
     super(props);
     this.state = {
       selectedDate: props.defaultValue,
+      dataFetched: false,
+      previousLocationPid: '',
     };
   }
 
@@ -17,6 +19,16 @@ class DatePicker extends Component {
     const { handleDateChange } = this.props;
     this.setState({ selectedDate: value });
     handleDateChange(value, name);
+  };
+
+  fetchDataOnClick = () => {
+    const { fetchData, locationPid } = this.props;
+    const { dataFetched, previousLocationPid } = this.state;
+
+    if (!dataFetched || locationPid !== previousLocationPid) {
+      fetchData();
+      this.setState({ dataFetched: true, previousLocationPid: locationPid });
+    }
   };
 
   render() {
@@ -31,6 +43,7 @@ class DatePicker extends Component {
       placeholder,
       disable,
       disabledInput,
+      loading,
     } = this.props;
     const { selectedDate } = this.state;
     // Remove this code when this issue is solved -> https://github.com/arfedulov/semantic-ui-calendar-react/issues/202
@@ -49,6 +62,7 @@ class DatePicker extends Component {
       <DateInput
         autoComplete="off"
         clearable
+        onSelect={this.fetchDataOnClick}
         closable
         disabled={disabledInput}
         disable={disable}
@@ -57,6 +71,7 @@ class DatePicker extends Component {
         minDate={minDate}
         maxDate={maxDate}
         error={error}
+        loading={loading}
         label={label}
         id={id}
         name={name}
@@ -75,6 +90,7 @@ DatePicker.propTypes = {
   defaultValue: PropTypes.string,
   error: PropTypes.string,
   handleDateChange: PropTypes.func.isRequired,
+  fetchData: PropTypes.func,
   id: PropTypes.string,
   initialDate: PropTypes.string,
   label: PropTypes.string,
@@ -84,6 +100,8 @@ DatePicker.propTypes = {
   name: PropTypes.string,
   placeholder: PropTypes.string,
   disabledInput: PropTypes.bool,
+  loading: PropTypes.bool,
+  locationPid: PropTypes.string,
 };
 
 DatePicker.defaultProps = {
@@ -98,6 +116,9 @@ DatePicker.defaultProps = {
   error: null,
   disable: [],
   disabledInput: false,
+  fetchData: null,
+  loading: false,
+  locationPid: '',
 };
 
 export default Overridable.component('DatePicker', DatePicker);

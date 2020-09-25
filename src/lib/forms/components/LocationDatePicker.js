@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DatePicker } from '@components/DatePicker';
 import { locationApi } from '@api/locations';
-import { Dimmer } from 'semantic-ui-react';
 import { fromISO, toISODate } from '@api/date';
+import _isEmpty from 'lodash/isEmpty';
 
 export class LocationDatePicker extends Component {
   constructor(props) {
@@ -11,23 +11,13 @@ export class LocationDatePicker extends Component {
 
     this.state = {
       data: {},
-      isLoading: true,
+      isLoading: false,
       error: {},
     };
   }
 
-  componentDidMount() {
-    const { locationPid } = this.props;
-    this.fetchLocation(locationPid);
-  }
-
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { locationPid } = nextProps;
-    this.fetchLocation(locationPid);
-  }
-
   fetchLocation = async locationPid => {
+    this.setState({ isLoading: true });
     try {
       const response = await locationApi.get(locationPid);
       this.setState({ data: response.data, isLoading: false, error: {} });
@@ -40,7 +30,7 @@ export class LocationDatePicker extends Component {
     const { minDate, maxDate } = this.props;
     const { isLoading, error, data } = this.state;
     const disabled = [];
-    if (!isLoading && !error.response) {
+    if (!isLoading && !error.response && !_isEmpty(data)) {
       const weekdays = data.metadata.opening_weekdays,
         exceptions = data.metadata.opening_exceptions;
       let date = fromISO(minDate);
@@ -75,28 +65,34 @@ export class LocationDatePicker extends Component {
     return disabled;
   };
 
+  fetchData = () => {
+    const { locationPid } = this.props;
+    this.fetchLocation(locationPid);
+  };
+
   render() {
     const {
       minDate,
       maxDate,
       handleDateChange,
       defaultValue,
+      locationPid,
       ...otherProps
     } = this.props;
     const { isLoading } = this.state;
     return (
-      <Dimmer.Dimmable>
-        <Dimmer active={isLoading} inverted />
-        <DatePicker
-          {...otherProps}
-          minDate={minDate}
-          maxDate={maxDate}
-          disable={this.listDisabled()}
-          handleDateChange={handleDateChange}
-          initialDate=""
-          defaultValue={defaultValue}
-        />
-      </Dimmer.Dimmable>
+      <DatePicker
+        {...otherProps}
+        minDate={minDate}
+        maxDate={maxDate}
+        disable={this.listDisabled()}
+        handleDateChange={handleDateChange}
+        loading={isLoading}
+        fetchData={this.fetchData}
+        initialDate=""
+        defaultValue={defaultValue}
+        locationPid={locationPid}
+      />
     );
   }
 }
